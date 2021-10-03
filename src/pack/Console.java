@@ -5,8 +5,19 @@ import java.util.Scanner;
 public class Console
 {
     private boolean isConsoleWorking;
+    private boolean isUserConstructor = false;
     private final Scanner in = new Scanner(System.in);
-    private final ConsoleListener listener = new ConsoleListener(this);
+    private final IKeyListener listener;
+
+    public Console()
+    {
+        listener = new ConsoleListener(this);
+    }
+    public Console(IKeyListener listener)
+    {
+        this.listener = listener;
+        isUserConstructor = true;
+    }
 
     public void start()
     {
@@ -16,19 +27,36 @@ public class Console
         do
         {
             c = in.next().charAt(0);
-            switch (c)
+
+            if (!isUserConstructor)
             {
-                case 'a' -> listener.doOnA();
-                case 'b' -> listener.doOnB();
-                case 'c' -> listener.doOnC();
-                case 'd' -> listener.doOnD();
-                case 'e' -> listener.doOnE();
-                case 'p' -> listener.printControl();
-                case 'r' -> {
-                    String param = in.next();
-                    listener.changeControl(param);
+                switch (c)
+                {
+                    case 'a' -> listener.doOnA();
+                    case 'b' -> listener.doOnB();
+                    case 'c' -> listener.doOnC();
+                    case 'd' -> listener.doOnD();
+                    case 'e' -> listener.doOnE();
+                    case 'p' -> listener.printControl();
+                    case 'r' -> {
+                        String param = in.next();
+                        listener.changeControl(param);
+                    }
                 }
             }
+
+            else
+            {
+                switch (c)
+                {
+                    case 'a' -> listener.doOnA();
+                    case 'b' -> listener.doOnB();
+                    case 'c' -> listener.doOnC();
+                    case 'd' -> listener.doOnD();
+                    case 'e' -> stopConsole();
+                }
+            }
+
         } while (isConsoleWorking);
     }
 

@@ -7,4 +7,6 @@ public interface IKeyListener
      void doOnC();
      void doOnD();
      void doOnE();
+     void printControl();
+     void changeControl(String param);
 }

@@ -2,7 +2,7 @@ package pack;
 
 public class ConsoleListener implements IKeyListener
 {
-    private Console console;
+    private final Console console;
 
     private final IAction action1;
     private final IAction action2;
