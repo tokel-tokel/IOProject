@@ -2,11 +2,32 @@ package pack;
 
 public interface IKeyListener
 {
-     void doOnA();
-     void doOnB();
-     void doOnC();
-     void doOnD();
-     void doOnE();
-     void printControl();
-     void changeControl(String param);
+     default void doOnA()
+     {
+
+     }
+     default void doOnB()
+     {
+
+     }
+     default void doOnC()
+     {
+
+     }
+     default void doOnD()
+     {
+
+     }
+     default void doOnE()
+     {
+
+     }
+     default void doOnP()
+     {
+
+     }
+     default void doOnR()
+     {
+
+     }
 }

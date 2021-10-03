@@ -22,7 +22,7 @@ public class Console
     public void start()
     {
         isConsoleWorking = true;
-        listener.printControl();
+        listener.doOnP();
         char c;
         do
         {
@@ -37,11 +37,8 @@ public class Console
                     case 'c' -> listener.doOnC();
                     case 'd' -> listener.doOnD();
                     case 'e' -> listener.doOnE();
-                    case 'p' -> listener.printControl();
-                    case 'r' -> {
-                        String param = in.next();
-                        listener.changeControl(param);
-                    }
+                    case 'p' -> listener.doOnP();
+                    case 'r' -> listener.doOnR();
                 }
             }
 
