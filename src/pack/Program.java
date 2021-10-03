@@ -42,7 +42,7 @@ public class Program
             @Override
             public void printControl()
             {
-                throw new IllegalArgumentException();
+
             }
 
             @Override
