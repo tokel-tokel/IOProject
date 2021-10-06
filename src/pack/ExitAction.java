@@ -2,17 +2,17 @@ package pack;
 
 public class ExitAction implements IAction
 {
-    Console console;
+    private final NewConsoleListener consoleListener;
 
-    public ExitAction(Console console)
+    public ExitAction(NewConsoleListener consoleListener)
     {
-        this.console = console;
+        this.consoleListener = consoleListener;
     }
 
     @Override
     public void doAction()
     {
-        console.stopConsole();
+        consoleListener.getEventFromActions(this, EventsFromActions.EXIT);
     }
 
     @Override

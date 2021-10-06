@@ -5,59 +5,67 @@ import java.util.Scanner;
 public class Console
 {
     private boolean isConsoleWorking;
-    private boolean isUserConstructor = false;
+
     private final Scanner in = new Scanner(System.in);
-    private final IKeyListener listener;
+    private IConsoleListener listener;
+
+    private final Contract contract = new Contract();
 
     public Console()
     {
-        listener = new ConsoleListener(this);
+        listener = new NewConsoleListener(this, contract);
     }
-    public Console(IKeyListener listener)
+
+    public void setListener(IConsoleListener listener)
     {
         this.listener = listener;
-        isUserConstructor = true;
     }
 
     public void start()
     {
         isConsoleWorking = true;
-        listener.doOnP();
+        listener.update(ConsoleListenerEvents.PRINT_CONTROL_REQUESTED);
         char c;
         do
         {
             c = in.next().charAt(0);
-
-            if (!isUserConstructor)
+            switch (c)
             {
-                switch (c)
-                {
-                    case 'a' -> listener.doOnA();
-                    case 'b' -> listener.doOnB();
-                    case 'c' -> listener.doOnC();
-                    case 'd' -> listener.doOnD();
-                    case 'e' -> listener.doOnE();
-                    case 'p' -> listener.doOnP();
-                    case 'r' -> listener.doOnR();
-                }
-            }
-
-            else
-            {
-                switch (c)
-                {
-                    case 'a' -> listener.doOnA();
-                    case 'b' -> listener.doOnB();
-                    case 'c' -> listener.doOnC();
-                    case 'd' -> listener.doOnD();
-                    case 'e' -> stopConsole();
-                }
+                case 'a' -> listener.update(ConsoleListenerEvents.KEY_A_PRESSED);
+                case 'b' -> listener.update(ConsoleListenerEvents.KEY_B_PRESSED);
+                case 'c' -> listener.update(ConsoleListenerEvents.KEY_C_PRESSED);
+                case 'd' -> listener.update(ConsoleListenerEvents.KEY_D_PRESSED);
+                case 'e' -> listener.update(ConsoleListenerEvents.KEY_E_PRESSED);
+                case 'p' -> listener.update(ConsoleListenerEvents.KEY_P_PRESSED);
+                case 'r' -> listener.update(ConsoleListenerEvents.KEY_R_PRESSED);
             }
 
         } while (isConsoleWorking);
     }
 
-    public void stopConsole()
+    public void getEvent(IConsoleListener sender, ConsoleEvents event)
+    {
+        if (sender == listener)
+        {
+            if(event == ConsoleEvents.STOP)
+            {
+                stopConsole();
+            }
+        }
+    }
+
+    public void getSecretEvent(SecretConsoleEvents event, Contract contract)
+    {
+        if (this.contract == contract)
+        {
+            if (event == SecretConsoleEvents.EVENT1)
+            {
+                System.out.println("You found a secret");
+            }
+        }
+    }
+
+    private void stopConsole()
     {
         isConsoleWorking = false;
     }
