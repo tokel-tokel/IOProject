@@ -2,9 +2,9 @@ package pack;
 
 public class PrintAction implements IAction
 {
-    private final NewConsoleListener consoleListener;
+    private final INewConsoleListener consoleListener;
 
-    public PrintAction(NewConsoleListener consoleListener)
+    public PrintAction(INewConsoleListener consoleListener)
     {
         this.consoleListener = consoleListener;
     }

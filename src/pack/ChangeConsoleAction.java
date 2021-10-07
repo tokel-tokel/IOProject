@@ -1,10 +1,10 @@
 package pack;
 
-public class ChangeAction implements IAction
+public class ChangeConsoleAction implements IAction
 {
     private final INewConsoleListener consoleListener;
 
-    public ChangeAction(INewConsoleListener consoleListener)
+    public ChangeConsoleAction(INewConsoleListener consoleListener)
     {
         this.consoleListener = consoleListener;
     }
@@ -12,12 +12,12 @@ public class ChangeAction implements IAction
     @Override
     public void doAction()
     {
-        consoleListener.getEventFromActions(this, EventsFromActions.CHANGE_CONTROL);
+        consoleListener.getEventFromActions(this, EventsFromActions.CHANGE_CONSOLE);
     }
 
     @Override
     public String getActionName()
     {
-        return "ChangeAction";
+        return "ChangeConsoleAction";
     }
 }

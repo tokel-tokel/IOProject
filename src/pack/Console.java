@@ -8,12 +8,14 @@ public class Console
 
     private final Scanner in = new Scanner(System.in);
     private IConsoleListener listener;
+    private final Controller controller;
 
     private final Contract contract = new Contract();
 
-    public Console()
+    public Console(Controller controller)
     {
         listener = new NewConsoleListener(this, contract);
+        this.controller = controller;
     }
 
     public void setListener(IConsoleListener listener)
@@ -38,6 +40,7 @@ public class Console
                 case 'e' -> listener.update(ConsoleListenerEvents.KEY_E_PRESSED);
                 case 'p' -> listener.update(ConsoleListenerEvents.KEY_P_PRESSED);
                 case 'r' -> listener.update(ConsoleListenerEvents.KEY_R_PRESSED);
+                case 'o' -> listener.update(ConsoleListenerEvents.KEY_O_PRESSED);
             }
 
         } while (isConsoleWorking);
@@ -50,6 +53,28 @@ public class Console
             if(event == ConsoleEvents.STOP)
             {
                 stopConsole();
+            }
+        }
+    }
+
+    public void getEventFromController(Controller sender, ConsoleEvents event)
+    {
+        if (sender == controller)
+        {
+            if (event == ConsoleEvents.STOP)
+            {
+                stopConsole();
+            }
+        }
+    }
+
+    public void getEvent(IConsoleListener sender, ConsoleEvents event, String chosenConsole)
+    {
+        if (sender == listener)
+        {
+            if (event == ConsoleEvents.CHANGE_CONSOLE)
+            {
+                controller.getEventFromConsole(this, ControllerEvents.CHANGE_CONSOLE, chosenConsole);
             }
         }
     }

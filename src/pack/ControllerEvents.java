@@ -1,7 +1,6 @@
 package pack;
 
-public enum ConsoleEvents
+public enum ControllerEvents
 {
-    STOP,
     CHANGE_CONSOLE
 }

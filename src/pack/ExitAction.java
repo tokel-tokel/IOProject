@@ -2,9 +2,9 @@ package pack;
 
 public class ExitAction implements IAction
 {
-    private final NewConsoleListener consoleListener;
+    private final INewConsoleListener consoleListener;
 
-    public ExitAction(NewConsoleListener consoleListener)
+    public ExitAction(INewConsoleListener consoleListener)
     {
         this.consoleListener = consoleListener;
     }

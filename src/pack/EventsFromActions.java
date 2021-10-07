@@ -5,5 +5,6 @@ public enum EventsFromActions
     EXIT,
     PRINT_CONTROL,
     CHANGE_CONTROL,
-    SECRET_ACTION
+    SECRET_ACTION,
+    CHANGE_CONSOLE
 }

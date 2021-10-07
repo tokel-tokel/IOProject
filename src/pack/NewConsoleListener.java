@@ -2,7 +2,7 @@ package pack;
 
 import java.util.Scanner;
 
-public class NewConsoleListener implements IConsoleListener
+public class NewConsoleListener implements INewConsoleListener
 {
     private final Scanner in = new Scanner(System.in);
     private final Console console;
@@ -16,6 +16,7 @@ public class NewConsoleListener implements IConsoleListener
     private final IAction printAction;
     private final IAction changeAction;
     private final IAction secretAction;
+    private final IAction changeConsoleAction;
 
     private IAction actionA;
     private IAction actionB;
@@ -24,6 +25,7 @@ public class NewConsoleListener implements IConsoleListener
     private IAction actionE;
     private IAction actionP;
     private IAction actionR;
+    private IAction actionO;
 
     public NewConsoleListener(Console console, Contract contract)
     {
@@ -38,6 +40,7 @@ public class NewConsoleListener implements IConsoleListener
         printAction = new PrintAction(this);
         changeAction = new ChangeAction(this);
         secretAction = new SecretAction(this);
+        changeConsoleAction = new ChangeConsoleAction(this);
 
         actionA = action1;
         actionB = action2;
@@ -46,6 +49,7 @@ public class NewConsoleListener implements IConsoleListener
         actionE = exitAction;
         actionP = printAction;
         actionR = changeAction;
+        actionO = changeConsoleAction;
     }
 
     public NewConsoleListener(Console console)
@@ -65,10 +69,12 @@ public class NewConsoleListener implements IConsoleListener
             case KEY_E_PRESSED -> actionE.doAction();
             case KEY_P_PRESSED -> actionP.doAction();
             case KEY_R_PRESSED -> actionR.doAction();
+            case KEY_O_PRESSED -> actionO.doAction();
             case PRINT_CONTROL_REQUESTED -> printControl();
         }
     }
 
+    @Override
     public void getEventFromActions(IAction sender, EventsFromActions event)
     {
         if(sender == exitAction)
@@ -99,6 +105,13 @@ public class NewConsoleListener implements IConsoleListener
                 console.getSecretEvent(SecretConsoleEvents.EVENT1, contract);
             }
         }
+        else if (sender == changeConsoleAction)
+        {
+            if(event == EventsFromActions.CHANGE_CONSOLE)
+            {
+                changeConsole();
+            }
+        }
     }
 
     private void exitFromConsole()
@@ -115,6 +128,7 @@ public class NewConsoleListener implements IConsoleListener
         System.out.println("e - " + actionE.getActionName());
         System.out.println("p - " + actionP.getActionName());
         System.out.println("r - " + actionR.getActionName());
+        System.out.println("o - " + actionO.getActionName());
     }
 
     private void changeControl()
@@ -133,7 +147,11 @@ public class NewConsoleListener implements IConsoleListener
             case "print" -> newAction = printAction;
             case "change" -> newAction = changeAction;
             case "secret" -> newAction = secretAction;
-            default -> throw new IllegalStateException("Unexpected value: " + params[1]);
+            case "changeConsole" -> newAction = changeConsoleAction;
+            default -> {
+                System.out.println("Такой функции нету!");
+                return;
+            }
         }
 
         switch (params[0])
@@ -145,7 +163,14 @@ public class NewConsoleListener implements IConsoleListener
             case "e" -> actionE = newAction;
             case "p" -> actionP = newAction;
             case "r" -> actionR = newAction;
+            case "o" -> actionO = newAction;
         }
+    }
+
+    private void changeConsole()
+    {
+        String chosenConsole = in.next();
+        console.getEvent(this, ConsoleEvents.CHANGE_CONSOLE, chosenConsole);
     }
 
 }
